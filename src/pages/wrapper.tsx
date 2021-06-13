@@ -8,14 +8,14 @@ import {
   Switch,
   Route
 } from 'react-router-dom';
-import Home from './home';
-import Ai from './project/anvil-interactive';
-import Stremho from './project/stremho';
-import Acbci from './project/acb-ci';
-import Observatory from './project/observatory';
+
+const Home = React.lazy(() => import('../pages/home'));
+const Ai = React.lazy(() => import('../pages/project/anvil-interactive'));
+const Stremho = React.lazy(() => import('../pages/project/stremho'));
+const Acbci = React.lazy(() => import('../pages/project/acb-ci'));
+const Observatory = React.lazy(() => import('../pages/project/observatory'));
 
 const Wrapper = (): JSX.Element => {
-
   return (
     <Router>
 
@@ -48,7 +48,7 @@ const Wrapper = (): JSX.Element => {
       </motion.div>
 
     </Router>
-    )
+  )
 }
 
 export default Wrapper;
