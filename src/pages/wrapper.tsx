@@ -1,52 +1,50 @@
-import React  from 'react';
+import React, { Suspense, lazy } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import '../styles/_importer.scss';
 import 'react-medium-image-zoom/dist/styles.css';
 import Cursor from '../component/cursor';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route
-} from 'react-router-dom';
 
-const Home = React.lazy(() => import('../pages/home'));
-const Ai = React.lazy(() => import('../pages/project/anvil-interactive'));
-const Stremho = React.lazy(() => import('../pages/project/stremho'));
-const Acbci = React.lazy(() => import('../pages/project/acb-ci'));
-const Observatory = React.lazy(() => import('../pages/project/observatory'));
+const Home = lazy(() => import('../pages/home'));
+const Ai = lazy(() => import('../pages/project/anvil-interactive'));
+const Stremho = lazy(() => import('../pages/project/stremho'));
+const Acbci = lazy(() => import('../pages/project/acb-ci'));
+const Observatory = lazy(() => import('../pages/project/observatory'));
 
 const Wrapper = (): JSX.Element => {
   return (
     <Router>
+      <Suspense fallback={<div>Loading...</div>}>
 
-      <Cursor/>
-      <div id="noise"> </div>
+        <Cursor/>
+        <div id="noise"> </div>
 
-      <motion.div
-        className="main-container"
-        key={Route.name}
-        initial="pageInitial"
-        animate="pageAnimate"
-        transition={{ duration: 0.2 }}
-        variants={{
-          pageInitial: {
-            opacity: 0
-          },
-          pageAnimate: {
-            opacity: 1
-          }
-        }}>
+        <motion.div
+          className="main-container"
+          key={Route.name}
+          initial="pageInitial"
+          animate="pageAnimate"
+          transition={{ duration: 0.2 }}
+          variants={{
+            pageInitial: {
+              opacity: 0
+            },
+            pageAnimate: {
+              opacity: 1
+            }
+          }}>
 
-        <Switch>
-          <Route path="/project/anvil-interactive"><Ai/></Route>
-          <Route path="/project/stremho"><Stremho/></Route>
-          <Route path="/project/acb-ci"><Acbci/></Route>
-          <Route path="/project/observatory"><Observatory/></Route>
-          <Route path="/"><Home/></Route>
-        </Switch>
+          <Switch>
+            <Route exact path="/project/anvil-interactive" component={Ai}/>
+            <Route exact path="/project/stremho" component={Stremho}/>
+            <Route exact path="/project/acb-ci" component={Acbci}/>
+            <Route exact path="/project/observatory" component={Observatory}/>
+            <Route exact path="/" component={Home}/>
+          </Switch>
 
-      </motion.div>
+        </motion.div>
 
+      </Suspense>
     </Router>
   )
 }
