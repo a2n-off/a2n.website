@@ -1,0 +1,47 @@
+// remove native cursor
+* {
+  @media screen and (min-width: 769px) {
+    cursor: none;
+  }
+}
+
+// reset body for cursor the all page
+body {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.cursor {
+  pointer-events: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1;
+
+  &__circle {
+    position: fixed;
+    top: 0;
+    left: 0;
+    -moz-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+    transform-style: preserve-3d;
+
+    &--big {
+      stroke: #feb300;
+      fill: transparent;
+      -moz-transform: translateX(-50%) translateY(-50%);
+      transform: translateX(-50%) translateY(-50%);
+      transform-style: preserve-3d;
+    }
+
+    &--small {
+      fill: #feb300;
+      -moz-transform: translateX(-50%) translateY(-50%);
+      transform: translateX(-50%) translateY(-50%);
+      transform-style: preserve-3d;
+    }
+  }
+}

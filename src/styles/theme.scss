@@ -1,0 +1,125 @@
+body {
+  background-color: #221E1F;
+  font-family: 'Roboto Condensed', sans-serif;
+  color: #f4eadf;
+}
+
+.container {
+  margin: 0 auto;
+  width: 80%;
+}
+
+.link {
+  color: #e15342;
+  &:hover {
+    color: #e15342;
+    text-decoration: underline;
+  }
+}
+
+.bounce {
+  animation: bounce 2s ease infinite;
+}
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    -moz-transform: translateY(0);
+    transform: translateY(0);
+  }
+  40% {
+    -moz-transform: translateY(-30px);
+    transform: translateY(-30px);
+  }
+  60% {
+    -moz-transform: translateY(-15px);
+    transform: translateY(-15px);
+  }
+}
+
+h2 {
+  margin-top: 50px;
+  margin-bottom: 0;
+}
+
+.project-title {
+  display: flex;
+  align-items: center;
+  div {
+    padding-left: 15px;
+  }
+}
+
+/** if title need special rule for mobile & tab */
+@media screen and (max-width: 769px) {
+  .ai {
+    .project-title {
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+  }
+
+  .observatory {
+    .project-title {
+      h1 {
+        font-size: 1.7em;
+      }
+    }
+  }
+}
+
+.project-img {
+  width: 100%;
+  height: auto;
+
+  &.white-bk {
+    background-color: #f4e9dd;
+    padding: 5px;
+  }
+  &.white-bk-full {
+    background-color: #f4e9dd;
+  }
+}
+
+.little-img {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  padding: 50px;
+
+  .img {
+    height: 150px;
+    width: auto;
+  }
+}
+
+.img-grid {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  div {
+    width: 100%;
+    @media screen and (min-width: 769px) {
+      width: 50%;
+    }
+    >img, >picture {
+      width: 100%;
+      padding: 5%;
+      height: auto;
+    }
+  }
+
+}
+
+footer {
+  padding: 50px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  font-family: 'Covered By Your Grace', cursive;
+  @media screen and (min-width: 769px) {
+    font-size: x-large;
+  }
+}

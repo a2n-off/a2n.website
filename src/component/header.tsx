@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHandPointDown } from '@fortawesome/free-solid-svg-icons';
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 
-const Header = (props) => {
+type Props = {
+  isErrorPage: boolean;
+  children: ReactElement;
+}
+
+const Header = (props: Props) => {
   const [widthP, setWidthP] = useState(0);
   const [heightP, setHeightP] = useState(0);
-  const router = useRouter();
 
   /**
    * set the menu position and the menu shadow position
@@ -19,10 +22,12 @@ const Header = (props) => {
     const menu = document.getElementById('menu');
     const shadowMenu = document.getElementById('shadow-menu');
     // starting position (0) + padding card-container + padding grid
-    menu.style.top = `${paddingContainer+paddingTop}px`;
-    menu.style.left = `${paddingContainer+paddingLeft}px`;
-    shadowMenu.style.top = `${paddingContainer+paddingTop}px`;
-    shadowMenu.style.left = `${paddingContainer+paddingLeft}px`;
+    if (menu && shadowMenu) {
+      menu.style.top = `${paddingContainer+paddingTop}px`;
+      menu.style.left = `${paddingContainer+paddingLeft}px`;
+      shadowMenu.style.top = `${paddingContainer+paddingTop}px`;
+      shadowMenu.style.left = `${paddingContainer+paddingLeft}px`;
+    }
   }
 
   /**
@@ -51,20 +56,22 @@ const Header = (props) => {
     const containerPadding = parseFloat(containerGetPadding);
     setMenuPosition(containerPadding, paddingTop, paddingLeft);
 
-    ctx.strokeStyle = color;
-    ctx.beginPath();
+    if (ctx) {
+      ctx.strokeStyle = color;
+      ctx.beginPath();
 
-    for (let x = paddingLeft; x <= widthP - paddingRight; x += squareSize) {
-      ctx.moveTo(x, paddingTop);
-      ctx.lineTo(x, heightP - paddingBottom);
+      for (let x = paddingLeft; x <= widthP - paddingRight; x += squareSize) {
+        ctx.moveTo(x, paddingTop);
+        ctx.lineTo(x, heightP - paddingBottom);
+      }
+
+      for (let y = paddingTop; y <= heightP - paddingBottom; y += squareSize) {
+        ctx.moveTo(paddingLeft, y);
+        ctx.lineTo(widthP - paddingRight, y);
+      }
+
+      ctx.stroke();
     }
-
-    for (let y = paddingTop; y <= heightP - paddingBottom; y += squareSize) {
-      ctx.moveTo(paddingLeft, y);
-      ctx.lineTo(widthP - paddingRight, y);
-    }
-
-    ctx.stroke();
   }
 
   /**
@@ -74,10 +81,12 @@ const Header = (props) => {
    */
   function setCanvas(): void {
     const grid = document.getElementById('grid-canvas');
-    const gridHeight = grid.clientHeight;
-    const gridWidth = grid.clientWidth;
-    setHeightP(gridHeight);
-    setWidthP(gridWidth);
+    if (grid) {
+      const gridHeight = grid.clientHeight;
+      const gridWidth = grid.clientWidth;
+      setHeightP(gridHeight);
+      setWidthP(gridWidth);
+    }
   }
 
   /**
@@ -100,34 +109,34 @@ const Header = (props) => {
    * animate the grid in enter
    * @param mouseEvent
    */
-  function handleMouseEnter(mouseEvent) {
-    const subpanel = mouseEvent.currentTarget.querySelector('.card-container');
+  function handleMouseEnter(mouseEvent: MouseEvent) {
+    const subPanel = (mouseEvent.currentTarget as HTMLElement)?.querySelector('.card-container');
     setTimeout(() => {
-      subpanel.style.transition = "";
+      (subPanel as HTMLElement).style.transition = "";
     }, 100);
-    subpanel.style.transition = "transform 0.1s";
+    (subPanel as HTMLElement).style.transition = "transform 0.1s";
   }
 
   /**
    * animate the grid in leave
    * @param mouseEvent
    */
-  function handleMouseLeave(mouseEvent) {
-    const subpanel = mouseEvent.currentTarget.querySelector('.card-container');
-    subpanel.style.transition = "transform 0.1s";
+  function handleMouseLeave(mouseEvent: MouseEvent) {
+    const subPanel = (mouseEvent.currentTarget as HTMLElement)?.querySelector('.card-container');
+    (subPanel as HTMLElement).style.transition = "transform 0.1s";
     setTimeout(() => {
-      subpanel.style.transition = "";
+      (subPanel as HTMLElement).style.transition = "";
     }, 100);
-    subpanel.style.transform = "perspective(400px) rotateY(0deg) rotateX(0deg)";
+    (subPanel as HTMLElement).style.transform = "perspective(400px) rotateY(0deg) rotateX(0deg)";
   }
 
   /**
    * generate the animation for the grid
    * @param mouseEvent
    */
-  function transformPanel(mouseEvent) {
-    const panel = mouseEvent.currentTarget;
-    const subpanel = mouseEvent.currentTarget.querySelector('.card-container');
+  function transformPanel(mouseEvent: MouseEvent) {
+    const panel = (mouseEvent.currentTarget as HTMLElement);
+    const subPanel = (mouseEvent.currentTarget as HTMLElement)?.querySelector('.card-container');
     const transformAmount = 5;
     const mouseX = mouseEvent.pageX;
     const mouseY = mouseEvent.pageY;
@@ -135,7 +144,7 @@ const Header = (props) => {
     const centerY = panel.offsetTop + panel.clientHeight / 2;
     const percentX = (mouseX - centerX) / (panel.clientWidth / 2);
     const percentY = -((mouseY - centerY) / (panel.clientHeight / 2));
-    subpanel.style.transform = "perspective(400px) rotateY(" + percentX * transformAmount + "deg) rotateX(" + percentY * transformAmount + "deg)";
+    (subPanel as HTMLElement).style.transform = "perspective(400px) rotateY(" + percentX * transformAmount + "deg) rotateX(" + percentY * transformAmount + "deg)";
   }
 
   /**
@@ -157,10 +166,10 @@ const Header = (props) => {
    */
   useEffect(() => {
     const panels = document.getElementsByClassName('card-panel');
-    Array.from(panels).forEach((panel: HTMLElement) => {
-      panel.onmouseenter = handleMouseEnter;
-      panel.onmouseleave = handleMouseLeave;
-      panel.onmousemove = transformPanel;
+    Array.from(panels).forEach((panel: Element) => {
+      (panel as HTMLElement).onmouseenter = handleMouseEnter;
+      (panel as HTMLElement).onmouseleave = handleMouseLeave;
+      (panel as HTMLElement).onmousemove = transformPanel;
     });
     setListener();
     return () => removeListener();
@@ -182,7 +191,7 @@ const Header = (props) => {
           <div id="logo">{props.children}</div>
 
           <div id="menu">
-            <Link href="/">
+            <Link to="/">
               <div className="hoverable">
                 <p>{'<'}</p>
               </div>

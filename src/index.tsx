@@ -1,12 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './style/index.css';
-import Router from './router';
 import reportWebVitals from './reportWebVitals';
+import Wrapper from './pages/wrapper';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router/>
+    <Wrapper/>
   </React.StrictMode>,
   document.getElementById('ai')
 );

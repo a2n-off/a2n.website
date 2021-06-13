@@ -5,15 +5,17 @@ function Cursor() {
 
   const [active, setActive] = useState(false);
 
-  function parallaxCursor(event, movement) {
-    const pos = { x: 0, y: 0 };
-    const ball = document.querySelector('.cursor__circle--big');
-    const rect = event.target.getBoundingClientRect();
-    const relX = event.pageX - rect.left;
-    const relY = event.pageY - rect.top;
-    pos.x = rect.left + rect.width / 2 + (relX - rect.width / 2) / movement;
-    pos.y = rect.top + rect.height / 2 + (relY - rect.height / 2) / movement;
-    gsap.to(ball, 0.3, { x: pos.x, y: pos.y });
+  function parallaxCursor(event: MouseEvent, movement: number) {
+    if (event.target) {
+      const pos = { x: 0, y: 0 };
+      const ball = document.querySelector('.cursor__circle--big');
+      const rect = (event.target as Element).getBoundingClientRect();
+      const relX = event.pageX - rect.left;
+      const relY = event.pageY - rect.top;
+      pos.x = rect.left + rect.width / 2 + (relX - rect.width / 2) / movement;
+      pos.y = rect.top + rect.height / 2 + (relY - rect.height / 2) / movement;
+      gsap.to(ball, 0.3, { x: pos.x, y: pos.y });
+    }
   }
 
   function updatePosition() {
