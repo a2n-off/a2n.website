@@ -1,6 +1,5 @@
 import React, { Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { Switch } from 'react-router';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import '../styles/_importer.scss';
 import 'react-medium-image-zoom/dist/styles.css';
@@ -35,13 +34,13 @@ const Wrapper = (): JSX.Element => {
             }
           }}>
 
-          <Switch>
-            <Route exact path="/project/anvil-interactive" component={Ai}/>
-            <Route exact path="/project/stremho" component={Stremho}/>
-            <Route exact path="/project/acb-ci" component={Acbci}/>
-            <Route exact path="/project/observatory" component={Observatory}/>
-            <Route exact path="/" component={Home}/>
-          </Switch>
+          <Routes>
+            <Route path="/project/anvil-interactive" element={<Ai/>}/>
+            <Route path="/project/stremho" element={<Stremho/>}/>
+            <Route path="/project/acb-ci" element={<Acbci/>}/>
+            <Route path="/project/observatory" element={<Observatory/>}/>
+            <Route path="/" element={<Home/>}/>
+          </Routes>
 
         </motion.div>
 
