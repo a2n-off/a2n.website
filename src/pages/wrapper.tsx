@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Switch } from 'react-router';
 import { motion } from 'framer-motion';
 import '../styles/_importer.scss';
 import 'react-medium-image-zoom/dist/styles.css';
